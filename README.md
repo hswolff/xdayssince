@@ -1,34 +1,105 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# XDaysSince
 
-## Getting Started
+Check out the YouTube video so that this entire readme makes more sense.
 
-First, run the development server:
+"Gonna show you how I program, Googling and all"
 
-```bash
-npm run dev
-# or
-yarn dev
+this isn't necessarily to show you how to make this app, but to show you how i make apps
+show you my thinking, show you how i work, how i fail, how i google
+it's gonna be raw and unfiltered
+
+```
+users {} (next auth)
+
+incidents {
+    \_id: unique(slug),
+    created: date,
+    lastOccurrence: date,
+    title: string,
+    creator_id: user_ObjectId
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`{lastOccurrence relative date} days since {title}`
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## User Stories
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+User goes to home page /
+User sees a random Incident title show on page
+User is prompted to register to create their own or login
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+User registers
+User redirected to their profile page
+User clicks create new incident
+User goes to /create
+User saves page
+Goes to new incident page /i/:slug
 
-## Learn More
+User goes to profile page /profile
+Sees list of Incidents they own
+Can click to each incident
 
-To learn more about Next.js, take a look at the following resources:
+User goes to an incident page that they created
+User clicks an edit button that lets them edit the incident details
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+User goes to an incident page that they created
+User clicks button that registers a new Incident occurred
+User sees timer go back to zero
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Tech Stack
 
-## Deploy on Vercel
+https://hswolff.com/blog/my-tech-stack-2020-edition/
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Next.js
+- TailwindCSS
+- https://headlessui.dev/
+- React Context / React Query
+- MongoDB Atlas
+- NextAuth.js
+- Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Tickets
+
+1. Scaffold out initial pages with dummy data (using TypeScript)
+   - Create nav to navigate to relevant pages
+   - Create pages:
+     - /
+     - /create
+     - /profile
+     - /i/:slug
+2. Add support for a user to login with NextAuth
+   - Create local GitHub OAuth app
+   - If user isn't logged in and they go to /create redirect to /
+   - If user isn't logged in and they go to /profile redirect to /
+   - If user is logged in show users info on /profile page
+3. Add local MongoDB support and replace dummy data with database
+   - Use Mongoose (https://thecodebarbarian.com/working-with-mongoose-in-typescript.html)
+   - Update NextAuth to store users in MongoDB
+   - Create Incidents schema
+   - (Maybe) Inject dummy data for:
+     - 1-3 random Incident pages
+4. Add basic support for creating a new incident (make /create page functional)
+   - Add React-Query
+   - Add Formik
+   - Create form to create incident
+   - Create API endpoint to submit field via ajax
+     - /api/create
+   - Add error handling if slug isn't available
+   - On success go to incident page
+5. Add support for listing users list of incidents on their profile page
+   - Link to incident page
+   - Add button to delete incident
+   - Make delete button functional
+6. Add button on incident page to register a new incident (and reset lastOccurrence field)
+7. Add support for editing an incident from the incident page
+   - At URL /i/:slug/edit
+   - Create UI to edit fields
+   - Create API endpoint to submit changes /api/edit
+8. Style incident page
+   - make it big and responsive
+9. Style profile page
+   - Simple list of Incidents
+10. Style home page
+11. Launch on Vercel!
+    - Create production GitHub OAuth app
+    - Add correct env variables to vercel
