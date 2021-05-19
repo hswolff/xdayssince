@@ -1,10 +1,7 @@
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import { signIn, signOut, useSession } from 'next-auth/client';
 
 export default function Home() {
-  const [session] = useSession();
-
   return (
     <div className={styles.container}>
       <Head>
@@ -15,19 +12,6 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>XDaysSince</h1>
-
-        {!session && (
-          <>
-            Not signed in <br />
-            <button onClick={() => signIn()}>Sign in</button>
-          </>
-        )}
-        {session && (
-          <>
-            Signed in as {session?.user?.email} <br />
-            <button onClick={() => signOut()}>Sign out</button>
-          </>
-        )}
       </main>
     </div>
   );
