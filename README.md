@@ -73,11 +73,15 @@ https://hswolff.com/blog/my-tech-stack-2020-edition/
    - If user isn't logged in and they go to /profile redirect to /
    - If user is logged in show users info on /profile page
 3. Add local MongoDB support and replace dummy data with database
-   - Use Mongoose (https://thecodebarbarian.com/working-with-mongoose-in-typescript.html)
-   - Update NextAuth to store users in MongoDB
+   - Use Mongoose w/ TypeScript
+     - https://docs.mongodb.com/drivers/node/master/quick-start/
+     - https://mongoosejs.com/docs/index.html
+     - https://github.com/vercel/next.js/tree/canary/examples/with-mongodb
+   - [Update NextAuth to store users in MongoDB](https://next-auth.js.org/configuration/options#database)
    - Create Incidents schema
    - (Maybe) Inject dummy data for:
      - 1-3 random Incident pages
+     - [Use fallback: blocking](https://nextjs.org/docs/basic-features/data-fetching#fallback-blocking)
 4. Add basic support for creating a new incident (make /create page functional)
    - Add React-Query
    - Add Formik
