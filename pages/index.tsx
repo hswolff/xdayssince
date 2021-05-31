@@ -1,7 +1,14 @@
 import Head from 'next/head';
+import {
+  connectToDatabase,
+  Incident,
+  IncidentDao,
+  safeStringify,
+} from 'util/db';
+import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 
-export default function Home() {
+export default function Home({ items }: { items: Incident[] }) {
   return (
     <div className={styles.container}>
       <Head>
@@ -12,7 +19,25 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>XDaysSince</h1>
+
+        <ul>
+          {items.map((item) => (
+            <li key={item._id}>
+              <Link href={`/i/${item._id}`}>
+                <a>{item.title}</a>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </main>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  const { db } = await connectToDatabase();
+  const items = await IncidentDao.getAll(db);
+  return {
+    props: { items: safeStringify(items) },
+  };
 }

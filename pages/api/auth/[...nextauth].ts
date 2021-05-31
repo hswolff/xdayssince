@@ -9,5 +9,5 @@ export default NextAuth({
     }),
   ],
 
-  database: process.env.DATABASE_URL,
+  database: process.env.MONGODB_URI,
 });
