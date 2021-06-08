@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "formik": "^2.2.9",
     "mongodb": "^3.6.9",
     "next": "10.2.0",
     "next-auth": "^3.23.1",
