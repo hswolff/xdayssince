@@ -83,11 +83,14 @@ https://hswolff.com/blog/my-tech-stack-2020-edition/
      - 1-3 random Incident pages
      - [Use fallback: blocking](https://nextjs.org/docs/basic-features/data-fetching#fallback-blocking)
 4. Add basic support for creating a new incident (make /create page functional)
-   - Add React-Query
    - Add Formik
    - Create form to create incident
+     - input: title
+     - input: last occurred
    - Create API endpoint to submit field via ajax
      - /api/create
+       - use [slugify](https://www.npmjs.com/package/slugify) to save slug of title
+   - Add React-Query
    - Add error handling if slug isn't available
    - On success go to incident page
 5. Add support for listing users list of incidents on their profile page
