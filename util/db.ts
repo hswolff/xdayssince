@@ -66,6 +66,19 @@ export const IncidentDao = {
       .collection<Incident>('incidents')
       .findOne({ _id: new ObjectId(id) });
   },
+
+  async create(incident: Omit<Incident, '_id' | 'created'>) {
+    const { db } = await connectToDatabase();
+    const result = await db.collection<Incident>('incidents').insertOne({
+      ...incident,
+      created: new Date(),
+    });
+
+    return {
+      success: result.result.ok === 1,
+      response: result.ops[0],
+    };
+  },
 };
 
 export function safeStringify(obj: unknown) {

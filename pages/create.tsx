@@ -45,11 +45,16 @@ export default function CreatePage() {
             }
             return errors;
           }}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
+          onSubmit={async (values, { setSubmitting }) => {
+            try {
+              await fetch('/api/create', {
+                method: 'POST',
+                body: JSON.stringify(values),
+              });
+            } catch (error) {
+              console.error(error);
+            }
+            setSubmitting(false);
           }}
         >
           {({ isSubmitting }) => (
