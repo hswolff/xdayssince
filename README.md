@@ -89,15 +89,15 @@ https://hswolff.com/blog/my-tech-stack-2020-edition/
      - input: last occurred
    - Create API endpoint to submit field via ajax
      - /api/create
-       - use [slugify](https://www.npmjs.com/package/slugify) to save slug of title
-   - Add React-Query
-   - Add error handling if slug isn't available
+   - ~Add React-Query~
+   - use [slugify](https://www.npmjs.com/package/slugify) to save slug of title
    - On success go to incident page
 5. Add support for listing users list of incidents on their profile page
    - Link to incident page
    - Add button to delete incident
    - Make delete button functional
 6. Add button on incident page to register a new incident (and reset lastOccurrence field)
+   - Only if the user owns the Incident
 7. Add support for editing an incident from the incident page
    - At URL /i/:slug/edit
    - Create UI to edit fields
