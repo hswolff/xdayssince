@@ -102,11 +102,15 @@ https://hswolff.com/blog/my-tech-stack-2020-edition/
    - At URL /i/:slug/edit
    - Create UI to edit fields
    - Create API endpoint to submit changes /api/edit
-8. Style incident page
+8. Create MongoDB Atlas cluster and get it working in production
+   - Add `MONGODB_URI` environmental variable to Vercel
+9. Style incident page
    - make it big and responsive
-9. Style profile page
-   - Simple list of Incidents
-10. Style home page
-11. Launch on Vercel!
+10. Style profile page
+
+    - Simple list of Incidents
+
+11. Style home page
+12. Launch on Vercel!
     - Create production GitHub OAuth app
     - Add correct env variables to vercel
