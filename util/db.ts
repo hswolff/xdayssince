@@ -53,7 +53,7 @@ export interface Incident {
   created: Date;
   lastOccurrence: Date;
   title: string;
-  creator_id: ObjectId;
+  creatorId: ObjectId;
 }
 
 export const IncidentDao = {

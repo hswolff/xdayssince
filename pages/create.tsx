@@ -35,6 +35,7 @@ export default function CreatePage() {
         <h1 className={styles.title}>Create a new XDaysSince</h1>
         <Formik
           initialValues={{ title: '', lastOccurred: getTodaysDate() }}
+          initialStatus={{ success: undefined, error: undefined }}
           validate={(values) => {
             const errors: { [key: string]: string } = {};
             if (!values.title) {
@@ -45,20 +46,40 @@ export default function CreatePage() {
             }
             return errors;
           }}
-          onSubmit={async (values, { setSubmitting }) => {
+          onSubmit={async (values, { setSubmitting, resetForm, setStatus }) => {
+            setStatus({
+              success: undefined,
+              error: undefined,
+            });
+
             try {
-              await fetch('/api/create', {
+              const req = await fetch('/api/create', {
                 method: 'POST',
                 body: JSON.stringify(values),
               });
+              const response = await req.json();
+              console.log(response);
+              if (response.success) {
+                resetForm({
+                  status: {
+                    success: true,
+                  },
+                });
+              }
             } catch (error) {
               console.error(error);
+              setStatus({
+                error,
+              });
             }
+
             setSubmitting(false);
           }}
         >
-          {({ isSubmitting }) => (
+          {({ isSubmitting, status }) => (
             <Form>
+              {status.success && <div>Success!</div>}
+              {status.error && <div>Error: {status.error}</div>}
               <div>
                 <Field
                   type="input"
