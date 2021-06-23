@@ -22,7 +22,7 @@ export default function Home({ items }: { items: Incident[] }) {
 
         <ul>
           {items.map((item) => (
-            <li key={item._id}>
+            <li key={item._id.toString()}>
               <Link href={`/i/${item._id}`}>
                 <a>{item.title}</a>
               </Link>
