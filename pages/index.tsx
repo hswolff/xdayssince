@@ -1,10 +1,5 @@
 import Head from 'next/head';
-import {
-  connectToDatabase,
-  Incident,
-  IncidentDao,
-  safeStringify,
-} from 'util/db';
+import { Incident, IncidentDao, safeStringify } from 'util/db';
 import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 
@@ -35,8 +30,7 @@ export default function Home({ items }: { items: Incident[] }) {
 }
 
 export async function getStaticProps() {
-  const { db } = await connectToDatabase();
-  const items = await IncidentDao.getAll(db);
+  const items = await IncidentDao.getAll();
   return {
     props: { items: safeStringify(items) },
   };

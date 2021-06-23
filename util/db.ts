@@ -57,11 +57,13 @@ export interface Incident {
 }
 
 export const IncidentDao = {
-  async getAll(db: Db) {
+  async getAll() {
+    const { db } = await connectToDatabase();
     return await db.collection<Incident>('incidents').find().toArray();
   },
 
-  async getById(db: Db, id: string) {
+  async getById(id: string) {
+    const { db } = await connectToDatabase();
     return await db
       .collection<Incident>('incidents')
       .findOne({ _id: new ObjectId(id) });

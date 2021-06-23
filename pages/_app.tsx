@@ -39,11 +39,6 @@ function Nav() {
               </Link>
             </li>
           )}
-          <li>
-            <Link href="/i/bananas">
-              <a>Banana Incident</a>
-            </Link>
-          </li>
         </ul>
       </nav>
       {!session && (
