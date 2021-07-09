@@ -53,6 +53,7 @@ https://hswolff.com/blog/my-tech-stack-2020-edition/
 - Next.js
 - TailwindCSS
 - https://headlessui.dev/
+- https://heroicons.com/
 - React Context / React Query
 - MongoDB Atlas
 - NextAuth.js
