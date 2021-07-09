@@ -2,10 +2,21 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/client';
-import { connectToDatabase, safeStringify } from 'util/db';
+import {
+  connectToDatabase,
+  Incident,
+  IncidentDao,
+  safeStringify,
+} from 'util/db';
 import { User } from 'next-auth';
+import { IncidentItem } from 'components/IncidentItem';
 
-export default function ProfilePage({ user }: { user: User }) {
+interface ProfilePageProps {
+  user: User;
+  incidents: Incident[];
+}
+
+export default function ProfilePage({ user, incidents }: ProfilePageProps) {
   const router = useRouter();
   const [session, loading] = useSession();
 
@@ -24,6 +35,11 @@ export default function ProfilePage({ user }: { user: User }) {
         <h1 className={styles.title}>Profile</h1>
         <pre>{JSON.stringify(session?.user, null, 2)}</pre>
         <pre>{JSON.stringify(user, null, 2)}</pre>
+        <ul>
+          {incidents.map((item) => (
+            <IncidentItem item={item} />
+          ))}
+        </ul>
       </main>
     </div>
   );
@@ -31,6 +47,17 @@ export default function ProfilePage({ user }: { user: User }) {
 
 export async function getStaticProps() {
   const { db } = await connectToDatabase();
-  const user = await db.collection('users').findOne({ name: 'Harry Wolff' });
-  return { props: { user: safeStringify(user) } };
+  const user = await db
+    .collection<User>('users')
+    .findOne({ name: 'Harry Wolff' });
+
+  // @ts-expect-error
+  const incidents = await IncidentDao.getByUserId(user!._id.toString());
+
+  return {
+    props: {
+      user: safeStringify(user),
+      incidents: safeStringify(incidents),
+    },
+  };
 }

@@ -69,6 +69,14 @@ export const IncidentDao = {
       .findOne({ _id: new ObjectId(id) });
   },
 
+  async getByUserId(id: string): Promise<Incident[]> {
+    const { db } = await connectToDatabase();
+    return await db
+      .collection<Incident>('incidents')
+      .find({ creatorId: new ObjectId(id) })
+      .toArray();
+  },
+
   async create(incident: Omit<Incident, '_id' | 'created'>) {
     const { db } = await connectToDatabase();
     const result = await db.collection<Incident>('incidents').insertOne({

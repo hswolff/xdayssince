@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { Incident, IncidentDao, safeStringify } from 'util/db';
-import Link from 'next/link';
 import styles from '../styles/Home.module.css';
+import { IncidentItem } from 'components/IncidentItem';
 
 export default function Home({ items }: { items: Incident[] }) {
   return (
@@ -17,11 +17,7 @@ export default function Home({ items }: { items: Incident[] }) {
 
         <ul>
           {items.map((item) => (
-            <li key={item._id.toString()}>
-              <Link href={`/i/${item._id}`}>
-                <a>{item.title}</a>
-              </Link>
-            </li>
+            <IncidentItem item={item} />
           ))}
         </ul>
       </main>
