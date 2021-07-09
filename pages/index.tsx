@@ -17,7 +17,7 @@ export default function Home({ items }: { items: Incident[] }) {
 
         <ul>
           {items.map((item) => (
-            <IncidentItem item={item} />
+            <IncidentItem key={item._id.toString()} item={item} />
           ))}
         </ul>
       </main>

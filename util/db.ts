@@ -89,6 +89,17 @@ export const IncidentDao = {
       response: result.ops[0],
     };
   },
+
+  async delete(id: string) {
+    const { db } = await connectToDatabase();
+    const result = await db
+      .collection<Incident>('incidents')
+      .deleteOne({ _id: new ObjectId(id) });
+
+    return {
+      success: result.result.ok === 1,
+    };
+  },
 };
 
 export function safeStringify(obj: unknown) {

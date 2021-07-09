@@ -37,7 +37,15 @@ export default function ProfilePage({ user, incidents }: ProfilePageProps) {
         <pre>{JSON.stringify(user, null, 2)}</pre>
         <ul>
           {incidents.map((item) => (
-            <IncidentItem item={item} />
+            <IncidentItem
+              key={item._id.toString()}
+              item={item}
+              allowDelete
+              onDelete={() => {
+                // refresh all incidents
+                console.log('refresh all incidents');
+              }}
+            />
           ))}
         </ul>
       </main>
