@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { IncidentDao, SessionDao } from 'util/db';
+import { IncidentDao, SessionDao } from 'lib/db';
 
 export default async function IncidentAPI(
   req: NextApiRequest,

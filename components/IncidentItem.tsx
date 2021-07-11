@@ -1,4 +1,4 @@
-import { Incident } from 'util/db';
+import { Incident } from 'lib/db';
 import Link from 'next/link';
 
 interface IncidentItemProps {

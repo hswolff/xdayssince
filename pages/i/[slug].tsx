@@ -1,7 +1,7 @@
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import styles from 'styles/Home.module.css';
-import { Incident, IncidentDao, safeStringify } from 'util/db';
+import { Incident, IncidentDao, safeStringify } from 'lib/db';
 
 export default function IncidentPage({ title }: Incident) {
   return (

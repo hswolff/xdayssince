@@ -7,7 +7,7 @@ import {
   Incident,
   IncidentDao,
   safeStringify,
-} from 'util/db';
+} from 'lib/db';
 import { User } from 'next-auth';
 import { IncidentItem } from 'components/IncidentItem';
 

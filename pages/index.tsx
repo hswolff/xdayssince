@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Incident, IncidentDao, safeStringify } from 'util/db';
+import { Incident, IncidentDao, safeStringify } from 'lib/db';
 import styles from '../styles/Home.module.css';
 import { IncidentItem } from 'components/IncidentItem';
 
