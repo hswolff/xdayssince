@@ -2,23 +2,24 @@ import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/client';
-import {
-  connectToDatabase,
-  Incident,
-  IncidentDao,
-  safeStringify,
-} from 'lib/db';
-import { User } from 'next-auth';
 import { IncidentItem } from 'components/IncidentItem';
+import { useEffect, useState } from 'react';
+import { UserView } from './api/user';
 
-interface ProfilePageProps {
-  user: User;
-  incidents: Incident[];
-}
-
-export default function ProfilePage({ user, incidents }: ProfilePageProps) {
+export default function ProfilePage() {
   const router = useRouter();
   const [session, loading] = useSession();
+
+  const [{ user, incidents }, setState] = useState<UserView>({});
+
+  async function fetchData() {
+    const result = await (await fetch('/api/user')).json();
+    setState(result);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   if (!loading && !session) {
     router.push('/');
@@ -33,39 +34,18 @@ export default function ProfilePage({ user, incidents }: ProfilePageProps) {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Profile</h1>
-        <pre>{JSON.stringify(session?.user, null, 2)}</pre>
-        <pre>{JSON.stringify(user, null, 2)}</pre>
+        <pre>{user && JSON.stringify(user, null, 2)}</pre>
         <ul>
-          {incidents.map((item) => (
+          {incidents?.map((item) => (
             <IncidentItem
               key={item._id.toString()}
               item={item}
               allowDelete
-              onDelete={() => {
-                // refresh all incidents
-                console.log('refresh all incidents');
-              }}
+              onDelete={fetchData}
             />
           ))}
         </ul>
       </main>
     </div>
   );
-}
-
-export async function getStaticProps() {
-  const { db } = await connectToDatabase();
-  const user = await db
-    .collection<User>('users')
-    .findOne({ name: 'Harry Wolff' });
-
-  // @ts-expect-error
-  const incidents = await IncidentDao.getByUserId(user!._id.toString());
-
-  return {
-    props: {
-      user: safeStringify(user),
-      incidents: safeStringify(incidents),
-    },
-  };
 }

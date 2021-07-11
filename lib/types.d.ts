@@ -1,4 +1,4 @@
-import { Db, MongoClient } from 'mongodb';
+import { Db, MongoClient, ObjectId } from 'mongodb';
 
 export interface CachedMongo {
   client: MongoClient;
@@ -21,5 +21,15 @@ declare global {
       MONGODB_URI: string;
       MONGODB_DB: string;
     }
+  }
+}
+
+module 'next-auth' {
+  interface User {
+    _id: ObjectId;
+  }
+
+  interface Session {
+    userId: ObjectId;
   }
 }

@@ -1,5 +1,6 @@
 import { Db, MongoClient, MongoClientOptions, ObjectId } from 'mongodb';
 import { NextApiRequest } from 'next';
+import { Session } from 'next-auth';
 
 const { MONGODB_URI, MONGODB_DB } = process.env;
 
@@ -114,10 +115,6 @@ export const IncidentDao = {
     };
   },
 };
-
-interface Session {
-  userId: ObjectId;
-}
 
 export const SessionDao = {
   async getSessionFromReq(req: NextApiRequest) {
