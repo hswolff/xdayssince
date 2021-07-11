@@ -1,7 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { IncidentDao, SessionDao } from 'util/db';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async function IncidentAPI(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   let session;
 
   try {
@@ -43,4 +46,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(405).end();
     }
   }
-};
+}
