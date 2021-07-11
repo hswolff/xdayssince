@@ -53,7 +53,7 @@ export default function CreatePage() {
             });
 
             try {
-              const req = await fetch('/api/create', {
+              const req = await fetch('/api/incident', {
                 method: 'POST',
                 body: JSON.stringify(values),
               });
