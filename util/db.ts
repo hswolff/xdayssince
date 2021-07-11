@@ -1,4 +1,5 @@
 import { Db, MongoClient, MongoClientOptions, ObjectId } from 'mongodb';
+import { NextApiRequest } from 'next';
 
 const { MONGODB_URI, MONGODB_DB } = process.env;
 
@@ -111,6 +112,31 @@ export const IncidentDao = {
     return {
       success: result.result.ok === 1,
     };
+  },
+};
+
+interface Session {
+  userId: ObjectId;
+}
+
+export const SessionDao = {
+  async getSessionFromReq(req: NextApiRequest) {
+    const sessionToken = req.cookies['next-auth.session-token'];
+
+    if (!sessionToken) {
+      throw new Error('No session found in cookies');
+    }
+
+    const { db } = await connectToDatabase();
+    const session = await db
+      .collection<Session>('sessions')
+      .findOne({ sessionToken });
+
+    if (!session) {
+      throw new Error('No session found');
+    }
+
+    return session;
   },
 };
 

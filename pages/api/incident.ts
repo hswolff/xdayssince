@@ -1,17 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { connectToDatabase, IncidentDao } from 'util/db';
+import { IncidentDao, SessionDao } from 'util/db';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const sessionToken = req.cookies['next-auth.session-token'];
+  let session;
 
-  if (!sessionToken) {
+  try {
+    session = await SessionDao.getSessionFromReq(req);
+  } catch (error) {
     return res.status(401).end();
-  }
-
-  const { db } = await connectToDatabase();
-  const session = await db.collection('sessions').findOne({ sessionToken });
-  if (!session || !session.userId) {
-    return res.status(403).end();
   }
 
   const { userId: sessionUserId } = session;
