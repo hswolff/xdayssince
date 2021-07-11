@@ -1,6 +1,6 @@
 import { Db, MongoClient } from 'mongodb';
 
-interface CachedMongo {
+export interface CachedMongo {
   client: MongoClient;
   db: Db;
 }

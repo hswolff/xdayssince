@@ -14,14 +14,26 @@ if (!MONGODB_DB) {
   );
 }
 
+interface CachedMongo {
+  client: MongoClient;
+  db: Db;
+}
+
+interface MongoGlobal {
+  conn: CachedMongo | null;
+  promise: Promise<CachedMongo> | null;
+}
+
 /**
  * Global is used here to maintain a cached connection across hot reloads
  * in development. This prevents connections growing exponentially
  * during API Route usage.
  */
-let cached = global.mongo;
+// @ts-expect-error
+let cached = global.mongo as unknown as MongoGlobal;
 
 if (!cached) {
+  // @ts-expect-error
   cached = global.mongo = { conn: null, promise: null };
 }
 
