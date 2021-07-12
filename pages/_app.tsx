@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app';
 import { Provider, signIn, signOut, useSession } from 'next-auth/client';
 import Link from 'next/link';
 
-function MyApp({ Component, pageProps }: AppProps) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider session={pageProps.session}>
       <div>
@@ -56,5 +56,3 @@ function Nav() {
     </>
   );
 }
-
-export default MyApp;
