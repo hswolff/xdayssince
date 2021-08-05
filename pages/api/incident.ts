@@ -1,19 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { IncidentDao, SessionDao } from 'lib/db';
+import { IncidentDao, UserDao } from 'lib/db';
 
 export default async function IncidentAPI(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  let session;
+  let userId;
 
   try {
-    session = await SessionDao.getSessionFromReq(req);
+    userId = await UserDao.getUserIdFromSession(req);
+
+    console.log('User Id: ', userId)
   } catch (error) {
     return res.status(401).end();
   }
-
-  const { userId: sessionUserId } = session;
 
   switch (req.method) {
     case 'POST': {
@@ -21,7 +21,7 @@ export default async function IncidentAPI(
 
       const result = await IncidentDao.create({
         ...body,
-        creatorId: session.userId,
+        creatorId: userId,
       });
 
       return res.status(200).json(result);
@@ -34,7 +34,7 @@ export default async function IncidentAPI(
       }
 
       // Only let the creator delete their own incident
-      if (sessionUserId.toString() !== incident.creatorId.toHexString()) {
+      if (userId !== incident.creatorId.toHexString()) {
         return res.status(403).end();
       }
 

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { connectToDatabase, Incident, IncidentDao, SessionDao } from 'lib/db';
+import { connectToDatabase, Incident, IncidentDao, UserDao } from 'lib/db';
 import { User } from 'next-auth';
 import { ObjectId } from 'mongodb';
 
@@ -12,21 +12,19 @@ export default async function UserAPI(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<void | UserView> {
-  let session;
+  let userId;
 
   try {
-    session = await SessionDao.getSessionFromReq(req);
+    userId = await UserDao.getUserIdFromSession(req);
   } catch (error) {
     return res.status(401).end();
   }
-
-  const { userId: sessionUserId } = session;
 
   const { db } = await connectToDatabase();
 
   const user = await db
     .collection<User>('users')
-    .findOne({ _id: new ObjectId(sessionUserId) });
+    .findOne({ _id: new ObjectId(userId) });
 
   if (!user) {
     return res.status(403).end();

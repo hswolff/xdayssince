@@ -1,6 +1,7 @@
 import { Db, MongoClient, MongoClientOptions, ObjectId } from 'mongodb';
 import { NextApiRequest } from 'next';
 import { Session } from 'next-auth';
+import { getSession } from "next-auth/client";
 
 const { MONGODB_URI, MONGODB_DB } = process.env;
 
@@ -116,26 +117,17 @@ export const IncidentDao = {
   },
 };
 
-export const SessionDao = {
-  async getSessionFromReq(req: NextApiRequest) {
-    const sessionToken = req.cookies['next-auth.session-token'];
+export const UserDao = {
+  async getUserIdFromSession(req: NextApiRequest) {
+    const session = await getSession({ req });
 
-    if (!sessionToken) {
-      throw new Error('No session found in cookies');
+    if (!session || !session.userId) {
+      throw new Error('No Session!');
     }
 
-    const { db } = await connectToDatabase();
-    const session = await db
-      .collection<Session>('sessions')
-      .findOne({ sessionToken });
-
-    if (!session) {
-      throw new Error('No session found');
-    }
-
-    return session;
-  },
-};
+    return String(session.userId);
+  }
+}
 
 export function safeStringify(obj: unknown) {
   return JSON.parse(JSON.stringify(obj));
