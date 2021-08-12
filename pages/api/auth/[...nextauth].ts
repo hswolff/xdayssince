@@ -14,8 +14,8 @@ export default NextAuth({
 
   callbacks: {
     session(session, user) {
-      if ("id" in user) {
-        session.userId = new ObjectId(String(user.id));
+      if (user.id != null) {
+        session.userId = user.id as ObjectId;
       }
 
       return session;

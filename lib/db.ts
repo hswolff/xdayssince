@@ -1,7 +1,6 @@
 import { Db, MongoClient, MongoClientOptions, ObjectId } from 'mongodb';
 import { NextApiRequest } from 'next';
-import { Session } from 'next-auth';
-import { getSession } from "next-auth/client";
+import { getSession } from 'next-auth/client';
 
 const { MONGODB_URI, MONGODB_DB } = process.env;
 
@@ -121,13 +120,13 @@ export const UserDao = {
   async getUserIdFromSession(req: NextApiRequest) {
     const session = await getSession({ req });
 
-    if (!session || !session.userId) {
+    if (!session?.userId) {
       throw new Error('No Session!');
     }
 
     return String(session.userId);
-  }
-}
+  },
+};
 
 export function safeStringify(obj: unknown) {
   return JSON.parse(JSON.stringify(obj));
